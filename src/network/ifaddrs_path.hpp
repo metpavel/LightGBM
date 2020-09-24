@@ -34,7 +34,7 @@ struct ifaddrs {
 #define SIZE(p) MAX((p).ss_len,sizeof(p))
 
 
-struct sockaddr *
+inline struct sockaddr *
 sa_dup (struct sockaddr_storage *sa1)
 {
     struct sockaddr *sa2;
@@ -45,7 +45,7 @@ sa_dup (struct sockaddr_storage *sa1)
 }
 
 
-void freeifaddrs (struct ifaddrs *ifp)
+inline void freeifaddrs (struct ifaddrs *ifp)
 {
     if (NULL == ifp) return;
     free(ifp->ifa_name);
@@ -57,7 +57,7 @@ void freeifaddrs (struct ifaddrs *ifp)
 }
 
 
-int getifaddrs (struct ifaddrs **ifap)
+inline int getifaddrs (struct ifaddrs **ifap)
 {
     int sd = -1;
     char *ccp, *ecp;
