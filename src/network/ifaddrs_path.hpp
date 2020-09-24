@@ -137,4 +137,6 @@ error:
     freeifaddrs(*ifap);
     return (-1);
 }
+#undef MAX
+#undef SIZE
 #endif
