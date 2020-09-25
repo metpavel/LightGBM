@@ -10,10 +10,10 @@ pr:
 variables:
   PYTHON_VERSION: 3.8
   CONDA_ENV: test-env
-resources:
-  containers:
-  - container: ubuntu1404
-    image: lightgbm/vsts-agent:ubuntu-14.04
+# resources:
+#   containers:
+#   - container: ubuntu1404
+#     image: lightgbm/vsts-agent:ubuntu-14.04
 jobs:
 ###########################################
 - job: Linux
@@ -57,14 +57,15 @@ jobs:
       sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -y
       sudo apt-get update
       sudo apt-get install --no-install-recommends -y docker-ce docker-ce-cli containerd.io
-      lspci -vnn | grep -i VGA -A 12
       distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
       curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
       curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
       sudo add-apt-repository ppa:graphics-drivers/ppa -y
       sudo apt-get update
       sudo apt-get install --no-install-recommends -y nvidia-driver-410
+      lspci -vnn | grep -i VGA -A 12
       sudo apt-get install -y nvidia-docker2
+      nvidia-smi
       sudo systemctl restart docker
       sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
   - bash: $(Build.SourcesDirectory)/.ci/setup.sh
