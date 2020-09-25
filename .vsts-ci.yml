@@ -67,7 +67,7 @@ jobs:
       sudo apt-get install -y nvidia-docker2
       nvidia-smi > nvidia-smi && cat nvidia-smi
       sudo systemctl restart docker
-      sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
+      sudo docker run --rm --gpus all nvidia/cuda:10.0-base nvidia-smi
   - bash: $(Build.SourcesDirectory)/.ci/setup.sh
     displayName: Setup
   - bash: $(Build.SourcesDirectory)/.ci/test.sh
