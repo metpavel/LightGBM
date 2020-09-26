@@ -53,6 +53,7 @@ jobs:
       echo "##vso[task.setvariable variable=OPENCL_VENDOR_PATH]$AMDAPPSDK_PATH/etc/OpenCL/vendors"
     displayName: 'Set variables'
   - script: |
+      echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
       curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
       sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -y
       sudo apt-get update
@@ -60,12 +61,12 @@ jobs:
       distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
       curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
       curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-      sudo add-apt-repository ppa:graphics-drivers/ppa -y
-      sudo apt-get update
-      sudo apt-get install --no-install-recommends -y nvidia-driver-410
+#      sudo add-apt-repository ppa:graphics-drivers/ppa -y
+#      sudo apt-get update
+#      sudo apt-get install --no-install-recommends -y nvidia-driver-410
       lspci -vnn | grep -i VGA -A 12
       sudo apt-get install -y nvidia-docker2
-      nvidia-smi > nvidia-smi && cat nvidia-smi
+      nvidia-smi
       sudo systemctl restart docker
       sudo docker run --rm --gpus all nvidia/cuda:10.0-base nvidia-smi
   - bash: $(Build.SourcesDirectory)/.ci/setup.sh
