@@ -61,7 +61,8 @@ jobs:
       lspci -vnn | grep -i VGA -A 12
       sudo apt-get update
       sudo apt-get install --no-install-recommends -y docker-ce docker-ce-cli containerd.io nvidia-docker2
-      nvidia-smi -f log.txt && cat log.txt
+      nvidia-smi -f log.txt
+      cat log.txt
       sudo systemctl restart docker
       sudo docker run --rm --gpus all nvidia/cuda:10.0-base nvidia-smi
   - bash: $(Build.SourcesDirectory)/.ci/setup.sh
