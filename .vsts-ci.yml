@@ -53,7 +53,6 @@ jobs:
       echo "##vso[task.setvariable variable=OPENCL_VENDOR_PATH]$AMDAPPSDK_PATH/etc/OpenCL/vendors"
     displayName: 'Set variables'
   - script: |
-      echo 'debconf debconf/frontend select Noninteractive' | sudo tee debconf-set-selections
       curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
       sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -y
       sudo apt-get update
@@ -64,7 +63,7 @@ jobs:
       lspci -vnn | grep -i VGA -A 12
       sudo apt-get update
       sudo apt-get install -y nvidia-docker2
-      nvidia-smi
+      nvidia-smi -f logs.txt && cat logs.txt
       sudo systemctl restart docker
       sudo docker run --rm --gpus all nvidia/cuda:10.0-base nvidia-smi
   - bash: $(Build.SourcesDirectory)/.ci/setup.sh
