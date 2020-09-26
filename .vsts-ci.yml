@@ -60,7 +60,6 @@ jobs:
       sudo dpkg --configure -a
       curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
       sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -y
-      sudo dpkg --configure -a
       sudo apt-get update
       sudo dpkg --configure -a
       sudo apt-get install --no-install-recommends -y docker-ce docker-ce-cli containerd.io
@@ -68,7 +67,6 @@ jobs:
       curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
       curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
       lspci -vnn | grep -i VGA -A 12
-      sudo dpkg --configure -a
       sudo apt-get update
       sudo dpkg --configure -a
       sudo apt-get install --no-install-recommends -y nvidia-docker2
