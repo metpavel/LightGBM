@@ -21,10 +21,14 @@ jobs:
       - name: Test CUDA
         shell: bash
         run: |
-          export TASK="${{ matrix.task }}"
-          export COMPILER="${{ matrix.compiler }}"
+          export TASK=cuda
+          export COMPILER=gcc
           export GITHUB_ACTIONS="true"
+          export OS_NAME="linux"
           export BUILD_DIRECTORY="$GITHUB_WORKSPACE"
+          export CONDA_ENV="test-env"
+          export CONDA="$HOME/miniconda"
+          export PATH="$CONDA/bin:${HOME}/.local/bin:$PATH"
           distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
           curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
           curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
