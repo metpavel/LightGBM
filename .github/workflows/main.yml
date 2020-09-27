@@ -13,6 +13,8 @@ jobs:
     strategy:
       fail-fast: false
     steps:
+      - name: Cleanup
+        run: rm -rf $GITHUB_WORKSPACE
       - name: Checkout repository
         uses: actions/checkout@v1
         with:
