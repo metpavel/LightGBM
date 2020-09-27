@@ -34,4 +34,4 @@ jobs:
           sudo systemctl restart docker
           nvidia-smi -f log.txt
           cat log.txt
-          sudo docker run -e TASK=cuda -e COMPILER=gcc -e GITHUB_ACTIONS=true -e OS_NAME=linux -e BUILD_DIRECTORY="$GITHUB_WORKSPACE" -e CONDA_ENV="test-env" -v "$GITHUB_WORKSPACE":"/lightgbm/LightGBM" --rm --gpus all nvidia/cuda:11.0-runtime /bin/bash -c 'export CONDA="$HOME/miniconda" && export PATH="$CONDA/bin:${HOME}/.local/bin:$PATH" && apt-get update && apt-get install --no-install-recommends -y wget && nvidia-smi && /lightgbm/.ci/setup.sh && /lightgbm/.ci/test.sh'
+          sudo docker run -e TASK=cuda -e COMPILER=gcc -e GITHUB_ACTIONS=true -e OS_NAME=linux -e BUILD_DIRECTORY="$GITHUB_WORKSPACE" -e CONDA_ENV="test-env" -v "$GITHUB_WORKSPACE":"/lightgbm/LightGBM" --rm --gpus all nvidia/cuda:11.0-runtime /bin/bash -c 'export CONDA="$HOME/miniconda" && export PATH="$CONDA/bin:${HOME}/.local/bin:$PATH" && apt-get update && apt-get install --no-install-recommends -y wget && nvidia-smi && /lightgbm/LightGBM/.ci/setup.sh && /lightgbm/LightGBM/.ci/test.sh'
