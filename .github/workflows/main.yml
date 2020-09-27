@@ -21,14 +21,6 @@ jobs:
       - name: Test CUDA
         shell: bash
         run: |
-          export TASK=cuda
-          export COMPILER=gcc
-          export GITHUB_ACTIONS="true"
-          export OS_NAME="linux"
-          export BUILD_DIRECTORY="$GITHUB_WORKSPACE"
-          export CONDA_ENV="test-env"
-          export CONDA="$HOME/miniconda"
-          export PATH="$CONDA/bin:${HOME}/.local/bin:$PATH"
           curl -sL https://cmake.org/files/v3.18/cmake-3.18.1-Linux-x86_64.sh -o cmake.sh
           chmod +x cmake.sh
           sudo ./cmake.sh --prefix=/usr/local --exclude-subdir
@@ -42,4 +34,4 @@ jobs:
           sudo systemctl restart docker
           nvidia-smi -f log.txt
           cat log.txt
-          docker run -e TASK -e COMPILER -e GITHUB_ACTIONS -e OS_NAME -e BUILD_DIRECTORY -e CONDA_ENV -e CONDA -e PATH -v "$GITHUB_WORKSPACE":"/lightgbm" --rm --gpus all nvidia/cuda:11.0-runtime /bin/bash -c "nvidia-smi && /lightgbm/.ci/setup.sh && /lightgbm/.ci/test.sh"
+          sudo docker run -e TASK=cuda -e COMPILER=gcc -e GITHUB_ACTIONS=true -e OS_NAME=linux -e BUILD_DIRECTORY="$GITHUB_WORKSPACE" -e CONDA_ENV="test-env" -e CONDA="$HOME/miniconda" -e PATH="$CONDA/bin:${HOME}/.local/bin:$PATH" -v "$GITHUB_WORKSPACE":"/lightgbm" --rm --gpus all nvidia/cuda:11.0-runtime /bin/bash -c "nvidia-smi && /lightgbm/.ci/setup.sh && /lightgbm/.ci/test.sh"
