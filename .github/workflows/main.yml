@@ -42,4 +42,4 @@ jobs:
           sudo systemctl restart docker
           nvidia-smi -f log.txt
           cat log.txt
-          sudo docker run -v "$GITHUB_WORKSPACE":"/" --rm --gpus all nvidia/cuda:11.0-runtime /bin/bash -c "nvidia-smi && /.ci/setup.sh && /.ci/test.sh"
+          sudo docker run -v "$GITHUB_WORKSPACE":"/lightgbm" --rm --gpus all nvidia/cuda:11.0-runtime /bin/bash -c "nvidia-smi && /lightgbm/.ci/setup.sh && /lightgbm/.ci/test.sh"
