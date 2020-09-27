@@ -25,6 +25,13 @@ jobs:
           export COMPILER="${{ matrix.compiler }}"
           export GITHUB_ACTIONS="true"
           export BUILD_DIRECTORY="$GITHUB_WORKSPACE"
+          distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+          curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+          curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+          lspci -vnn | grep -i VGA -A 12
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y nvidia-docker2
+          sudo systemctl restart docker
           nvidia-smi -f log.txt
           cat log.txt
           sudo docker run --rm --gpus all nvidia/cuda:10.0-base nvidia-smi
