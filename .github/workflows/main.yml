@@ -18,8 +18,7 @@ jobs:
         with:
           fetch-depth: 5
           submodules: true
-      - name: Setup and run tests on Linux and macOS
-        if: matrix.os == 'macOS-latest' || matrix.os == 'ubuntu-latest'
+      - name: Test CUDA
         shell: bash
         run: |
           export TASK="${{ matrix.task }}"
