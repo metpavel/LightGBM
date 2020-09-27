@@ -28,6 +28,5 @@ jobs:
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y nvidia-docker2
           sudo systemctl restart docker
-          nvidia-smi -f log.txt
-          cat log.txt
+          nvidia-smi
           sudo docker run -e TASK=cuda -e COMPILER=gcc -e GITHUB_ACTIONS=true -e OS_NAME=linux -e BUILD_DIRECTORY="/LightGBM" -e CONDA_ENV="test-env" -v "$GITHUB_WORKSPACE":"/LightGBM" --rm --gpus all nvidia/cuda:11.0-devel /bin/bash -c 'export CONDA="$HOME/miniconda" && export PATH="$CONDA/bin:${HOME}/.local/bin:$PATH" && curl -sL https://cmake.org/files/v3.18/cmake-3.18.1-Linux-x86_64.sh -o cmake.sh && chmod +x cmake.sh && ./cmake.sh --prefix=/usr/local --exclude-subdir && rm cmake.sh && apt-get update && apt-get install --no-install-recommends -y wget build-essential && nvidia-smi && /LightGBM/.ci/setup.sh && /LightGBM/.ci/test.sh'
