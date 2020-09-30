@@ -5,8 +5,8 @@ from sklearn.metrics import mean_squared_error
 
 print('Loading data...')
 # load or create your dataset
-df_train = pd.read_csv('../regression/regression.train', header=None, sep='\t')
-df_test = pd.read_csv('../regression/regression.test', header=None, sep='\t')
+df_train = pd.read_csv('/LightGBM/examples/regression/regression.train', header=None, sep='\t')
+df_test = pd.read_csv('/LightGBM/examples/regression/regression.test', header=None, sep='\t')
 
 y_train = df_train[0]
 y_test = df_test[0]
