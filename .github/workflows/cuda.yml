@@ -58,7 +58,6 @@ jobs:
             export CONDA=\$HOME/miniconda
             export PATH=\$CONDA/bin:\$PATH
             apt-get update
-            apt-get autoremove --purge python3.8 -y
             apt-get install --no-install-recommends -y \
                 curl \
                 wget
@@ -66,6 +65,7 @@ jobs:
             chmod +x cmake.sh
             ./cmake.sh --prefix=/usr/local --exclude-subdir
             rm cmake.sh
+            apt list --installed
             $ROOT_DOCKER_FOLDER/.ci/setup.sh || exit -1
             $ROOT_DOCKER_FOLDER/.ci/test.sh
             python $ROOT_DOCKER_FOLDER/examples/python-guide/simple_example.py
