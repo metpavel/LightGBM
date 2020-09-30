@@ -13,15 +13,7 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - name: Cleanup
-        run: sudo rm -rf $GITHUB_WORKSPACE
-      - name: Checkout repository
-        uses: actions/checkout@v1
-        with:
-          fetch-depth: 5
-          submodules: false
-      - name: Setup Software on Host Machine
-        shell: bash
+      - name: Setup software on host machine
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
@@ -45,7 +37,25 @@ jobs:
              nvidia-docker2
           sudo systemctl restart docker
           nvidia-smi
+      - name: Cleanup
+        run: sudo rm -rf $GITHUB_WORKSPACE
+      - name: Checkout repository
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 5
+          submodules: false
       - name: Test CUDA
-        shell: bash
+        container:
+            image: nvidia/cuda:11.0-devel
+            env:
+                TASK: cuda
+                COMPILER: gcc
+                OS_NAME: linux
+                GITHUB_ACTIONS: true
+                BUILD_DIRECTORY: "/LightGBM"
+                CONDA_ENV: "test-env"
+            volumes:
+                - "$GITHUB_WORKSPACE":"/LightGBM"
+      options: --gpus all --rm
         run: |
-          sudo docker run -e TASK=cuda -e COMPILER=gcc -e GITHUB_ACTIONS=true -e OS_NAME=linux -e BUILD_DIRECTORY="/LightGBM" -e CONDA_ENV="test-env" -v "$GITHUB_WORKSPACE":"/LightGBM" --rm --gpus all nvidia/cuda:10.0-devel /bin/bash -c 'export CONDA="$HOME/miniconda" && export PATH="$CONDA/bin:${HOME}/.local/bin:$PATH" && apt-get update && apt-get install --no-install-recommends -y curl wget build-essential && curl -sL https://cmake.org/files/v3.18/cmake-3.18.1-Linux-x86_64.sh -o cmake.sh && chmod +x cmake.sh && ./cmake.sh --prefix=/usr/local --exclude-subdir && rm cmake.sh && nvidia-smi && /LightGBM/.ci/setup.sh && /LightGBM/.ci/test.sh'
+            export CONDA="$HOME/miniconda" && export PATH="$CONDA/bin:${HOME}/.local/bin:$PATH" && apt-get update && apt-get install --no-install-recommends -y curl wget build-essential && curl -sL https://cmake.org/files/v3.18/cmake-3.18.1-Linux-x86_64.sh -o cmake.sh && chmod +x cmake.sh && ./cmake.sh --prefix=/usr/local --exclude-subdir && rm cmake.sh && nvidia-smi && /LightGBM/.ci/setup.sh && /LightGBM/.ci/test.sh
