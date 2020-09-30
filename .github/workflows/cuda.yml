@@ -36,8 +36,6 @@ jobs:
               containerd.io \
               nvidia-docker2
           sudo systemctl restart docker
-      - name: Cleanup
-        run: sudo rm -rf $GITHUB_WORKSPACE
       - name: Checkout repository
         uses: actions/checkout@v1
         with:
@@ -68,4 +66,4 @@ jobs:
             /LightGBM/.ci/setup.sh || exit -1
             /LightGBM/.ci/test.sh || exit -1
             EOF
-            sudo docker run --env-file docker.env -v "$GITHUB_WORKSPACE":"/LightGBM" --rm --gpus all nvidia/cuda:11.0-devel-ubuntu20.04 /bin/bash -c 'cat /LightGBM/docker.env && cat /LightGBM/docker-script.sh'
+            sudo docker run --env-file docker.env -v "$GITHUB_WORKSPACE":"/LightGBM" --rm --gpus all nvidia/cuda:11.0-devel-ubuntu20.04 /bin/bash /LightGBM/docker-script.sh
