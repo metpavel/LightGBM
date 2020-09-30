@@ -53,4 +53,4 @@ jobs:
             BUILD_DIRECTORY=/LightGBM
             CONDA_ENV=test-env
             EOF
-            sudo docker run --env-file .env -v "$GITHUB_WORKSPACE":"/LightGBM" --rm --gpus all nvidia/cuda:11.0-devel-ubuntu20.04 /bin/bash
+            sudo docker run --env-file .env -v "$GITHUB_WORKSPACE":"/LightGBM" --rm --gpus all nvidia/cuda:11.0-devel-ubuntu20.04 /bin/bash -c ""
