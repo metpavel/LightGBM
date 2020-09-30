@@ -15,7 +15,6 @@ jobs:
     steps:
       - name: Setup or update software on host machine
         run: |
-          sudo apt-get autoremove --purge python -y
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
               curl \
@@ -58,6 +57,7 @@ jobs:
             cat > docker-script.sh <<EOF
             export CONDA=\$HOME/miniconda
             export PATH=\$CONDA/bin:\$PATH
+            apt-get autoremove --purge python -y
             apt-get update
             apt-get install --no-install-recommends -y \
                 curl \
