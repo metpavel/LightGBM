@@ -44,7 +44,6 @@ jobs:
           fetch-depth: 5
           submodules: true
       - name: Test CUDA
-        shell: bash
         run: |
             cat > .env <<EOF
             TASK=cuda
@@ -53,20 +52,5 @@ jobs:
             OS_NAME=linux
             BUILD_DIRECTORY=/LightGBM
             CONDA_ENV=test-env
-            EOF
-            cat > docker-script.sh <<EOF
-            export CONDA=$HOME/miniconda
-            export PATH=$CONDA/bin:$HOME/.local/bin:$PATH
-            apt-get update
-            apt-get install --no-install-recommends -y \
-                curl \
-                wget
-            curl -sL https://cmake.org/files/v3.18/cmake-3.18.1-Linux-x86_64.sh -o cmake.sh
-            chmod +x cmake.sh
-            ./cmake.sh --prefix=/usr/local --exclude-subdir
-            rm cmake.sh
-            nvidia-smi
-            /LightGBM/.ci/setup.sh || exit -1
-            /LightGBM/.ci/test.sh || exit -1
             EOF
             sudo docker run --env-file .env -v "$GITHUB_WORKSPACE":"/LightGBM" --rm --gpus all nvidia/cuda:11.0-devel-ubuntu20.04 /bin/bash
