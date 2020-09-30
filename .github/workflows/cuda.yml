@@ -35,7 +35,6 @@ jobs:
               docker-ce-cli \
               containerd.io \
               nvidia-docker2
-          apt list --installed
           sudo systemctl restart docker
       - name: Remove old folder with repository
         run: sudo rm -rf $GITHUB_WORKSPACE
@@ -68,6 +67,7 @@ jobs:
             rm cmake.sh
             $ROOT_DOCKER_FOLDER/.ci/setup.sh || exit -1
             $ROOT_DOCKER_FOLDER/.ci/test.sh
+            source activate test-env
             python $ROOT_DOCKER_FOLDER/examples/python-guide/simple_example.py
             EOF
             sudo docker run --env-file docker.env -v "$GITHUB_WORKSPACE":"$ROOT_DOCKER_FOLDER" --rm --gpus all nvidia/cuda:11.0-devel-ubuntu20.04 /bin/bash $ROOT_DOCKER_FOLDER/docker-script.sh
