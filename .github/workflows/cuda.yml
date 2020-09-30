@@ -44,6 +44,7 @@ jobs:
           fetch-depth: 5
           submodules: true
       - name: Test CUDA
+        shell: bash
         run: |
             cat > .env <<EOF
             TASK=cuda
