@@ -68,4 +68,4 @@ jobs:
             /LightGBM/.ci/setup.sh || exit -1
             /LightGBM/.ci/test.sh || exit -1
             EOF
-            sudo docker run --env-file .env -v "$GITHUB_WORKSPACE":"/LightGBM" --rm --gpus all nvidia/cuda:11.0-devel-ubuntu20.04 /bin/bash -c 'nvidia-smi'
+            sudo docker run --env-file .env -v "$GITHUB_WORKSPACE":"/LightGBM" --rm --gpus all nvidia/cuda:11.0-devel-ubuntu20.04 /bin/bash -c 'cat .env && cat docker-script.sh'
